@@ -2,13 +2,29 @@
   [
     {
       "url":"http://www.example.com",
-      "method":"GET"
+      "method":"GET",
+      "nonstandard_headers":
+        {
+          "apikey":"11111111-1111-1111-1111-111111111111",
+          "other":"test"
+        }
     },
     {
       "url":"http://www.example.com",
       "method":"POST",
       "body":"{\"test\":\"test\"}",
       "headers":"{\"accept\": \"text/plain\"}"
+    },
+    {
+      "url":"http://www.example.com",
+      "method":"POST",
+      "body":"{\"test\":\"test\"}",
+      "headers":"{\"accept\": \"text/plain\"}",
+      "json_standard_headers":
+        {
+          "apikey":"11111111-1111-1111-1111-111111111111",
+          "other":"test"
+        }
     }
   ]
 }
