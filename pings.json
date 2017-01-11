@@ -1,0 +1,14 @@
+{"urls":
+  [
+    {
+      "url":"http://www.example.com",
+      "method":"GET"
+    },
+    {
+      "url":"http://www.example.com",
+      "method":"POST",
+      "body":"{\"test\":\"test\"}",
+      "headers":"{\"accept\": \"text/plain\"}"
+    }
+  ]
+}
