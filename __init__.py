@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request as flask_request
 from response_helpers import *
 from request_helpers import *
 import os, json
@@ -16,7 +16,7 @@ def find_targets_to_ping_from_file():
 def api_root():
     response_object = api_response()
     list_of_targets_to_ping = find_targets_to_ping_from_file()
-    
+
     for target_to_ping in list_of_targets_to_ping["urls"]:
 
         request_info = build_request(target_to_ping)
@@ -27,6 +27,28 @@ def api_root():
 
     return response_object.get_innerHTML()
 
+@app.route("/", methods = ["POST"])
+def api_post():
+    if (not hasattr(flask_request, "json")):
+        return "This Route Requires a JSON Body"
+
+    try:
+        list_of_targets_to_ping = flask_request.json
+    except:
+        return "Please check that you're sending a body encoded with application/json"
+
+
+    response_object = api_response()
+
+    for target_to_ping in list_of_targets_to_ping["urls"]:
+
+        request_info = build_request(target_to_ping)
+
+        request = make_request(request_info)
+
+        package_ping(request, response_object)
+
+    return response_object.get_innerHTML()
 
 @app.route('/css/<path:path>')
 def send_css(path):
