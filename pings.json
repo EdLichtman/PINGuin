@@ -3,7 +3,7 @@
     {
       "url":"http://www.example.com",
       "method":"GET",
-      "nonstandard_headers":
+      "headers":
         {
           "apikey":"11111111-1111-1111-1111-111111111111",
           "other":"test"
@@ -12,19 +12,38 @@
     {
       "url":"http://www.example.com",
       "method":"POST",
-      "body":"{\"test\":\"test\"}",
-      "headers":"{\"accept\": \"text/plain\"}"
+      "body":
+        {
+          "test":"test"
+        },
+      "headers":
+        {
+          "apikey":"11111111-1111-1111-1111-111111111111",
+          "other":"test"
+        }
     },
     {
-      "url":"http://www.example.com",
-      "method":"POST",
-      "body":"{\"test\":\"test\"}",
-      "headers":"{\"accept\": \"text/plain\"}",
-      "json_standard_headers":
+      "url":"http://www.example.com/1",
+      "method":"PUT",
+      "body":
+        {
+          "test":"test"
+        },
+      "headers":
+        {
+          "apikey":"11111111-1111-1111-1111-111111111111",
+          "other":"test"
+        }
+    },
+    {
+      "url":"http://www.example.com/1",
+      "method":"DELETE",
+      "headers":
         {
           "apikey":"11111111-1111-1111-1111-111111111111",
           "other":"test"
         }
     }
+
   ]
 }

@@ -21,61 +21,58 @@ def build_request(ping_object):
     request_object["url"] = ping_object["url"]
 
     if ('body' in ping_object):
-        request_object["body"] = json.loads(ping_object["body"])
+        request_object["body"] = ping_object["body"]
     else:
         request_object["body"] = None
 
     if ('headers' in ping_object):
-        headers = json.loads(ping_object["headers"])
-
-        request_object["headers"] = headers
+        request_object["headers"] = ping_object["headers"]
     else:
         request_object["headers"] = None
-
-    if ('json_standard_headers' in ping_object):
-        if (attr_is_none_type(request_object, 'headers')):
-                request_object["headers"] = {}
-
-
-        json_standard_headers = ping_object["json_standard_headers"]
-
-        for header in json_standard_headers:
-            request_object["headers"][header] = json_standard_headers[header]
 
     return request_object
 
 
 def package_ping(request, my_api_response):
-    if (request.status_code == 200):
-        my_api_response.append_successful_pings(package_successful_ping(request))
-    else:
-        my_api_response.append_unsuccessful_pings(package_unsuccessful_ping(request))
+    if (200 <= request.status_code < 300):
+        my_api_response.append_successful_pings(package_ping_html(request, "successful"))
+    if (300 <= request.status_code < 400):
+        my_api_response.append_redirection_pings(package_ping_html(request, "redirection"))
+    if (400 <= request.status_code < 500):
+        my_api_response.append_client_error_pings(package_ping_html(request, "client-error"))
+    if (500 <= request.status_code):
+        my_api_response.append_server_error_pings(package_ping_html(request, "server-error"))
 
-def package_successful_ping(request):
-    innerHTML = '<div class="pingUrl">' + request.url + '</div>'
-    innerHTML += '<div class="ping-status">' + str(request.status_code) + '</div>'
-    innerHTML += '<div class="ping-header">' + ','.join(request.headers) + '</div>'
-    return innerHTML
-
-def package_unsuccessful_ping(request):
-    innerHTML = '<div class="pingUrl error">' + request.url + '</div>'
-    innerHTML += '<div class="ping-status error">' + str(request.status_code) + '</div>'
-    innerHTML += '<div class="ping-header error">' + ','.join(request.headers) + '</div>'
+def package_ping_html(request, status_type):
+    innerHTML = '<div class="ping-url ' + status_type + '">' + request.url + '</div>'
+    innerHTML = '<div class="ping-method ' +  status_type + '">' + request.request.method + '</div>'
+    innerHTML += '<div class="ping-status ' + status_type + '">' + str(request.status_code) + '</div>'
+    innerHTML += '<div class="ping-header ' + status_type + '">' + ','.join(request.headers) + '</div>'
     return innerHTML
 
 class api_response():
+    def append_successful_pings(self, ping):
+        self.successful_pings += ping
 
-    def append_successful_pings(self, pings):
-        self.successful_pings += pings
+    def append_redirection_pings(self, ping):
+        self.redirection_pings += ping
 
-    def append_unsuccessful_pings(self, pings):
-        self.unsuccessful_pings += pings
+    def append_client_error_pings(self, ping):
+        self.client_error_pings += ping
+
+    def append_server_error_pings(self, ping):
+        self.client_error_pings += ping
 
     def get_innerHTML(self):
-        return "".join([self.unsuccessful_pings, self.successful_pings])
+        return "".join([self.successful_pings,
+                        self.redirection_pings,
+                        self.client_error_pings,
+                        self.server_error_pings])
 
     successful_pings = ""
-    unsuccessful_pings = ""
+    redirection_pings = ""
+    client_error_pings = ""
+    server_error_pings = ""
 
 @app.route("/")
 def api_root():
@@ -94,10 +91,22 @@ def api_root():
         if(target_to_ping["method"] == "POST"):
             request = requests.post(request_info["url"],
                                     request_info["body"],
-                                    headers = request_info["headers"])
+                                    headers=request_info["headers"])
 
             package_ping(request, response_object)
 
+        if(target_to_ping["method"] == "PUT"):
+            request = requests.put(request_info["url"],
+                                    request_info["body"],
+                                    headers=request_info["headers"])
+
+            package_ping(request, response_object)
+
+        if(target_to_ping["method"] == "DELETE"):
+            request = requests.delete(request_info["url"],
+                                      headers=request_info["headers"])
+
+            package_ping(request, response_object)
 
     return response_object.get_innerHTML()
 
