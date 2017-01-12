@@ -24,11 +24,7 @@
     },
     {
       "url":"http://www.example.com/1",
-      "method":"PUT",
-      "body":
-        {
-          "test":"test"
-        },
+      "method":"DELETE",
       "headers":
         {
           "apikey":"11111111-1111-1111-1111-111111111111",
@@ -36,14 +32,8 @@
         }
     },
     {
-      "url":"http://www.example.com/1",
-      "method":"DELETE",
-      "headers":
-        {
-          "apikey":"11111111-1111-1111-1111-111111111111",
-          "other":"test"
-        }
+      "url":"http://wef.flibbityfloppityarooni.com/gw",
+      "method":"GET"
     }
-
   ]
 }
