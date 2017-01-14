@@ -7,7 +7,7 @@ JSON request is build on:
 <br/>
 * saveas: file_name.  
 
-* When you add this field the application will remove it, take the remaining JSON request and store it at /routes/file_name. There is no need to add ".json" to the end since this application manages the filetype
+* When you add this field the application will remove it, take the remaining JSON request and store it at PINGuin_domain/file_name. There is no need to add ".json" to the end since this application manages the filetype
 
 <br/>
 * urls: [ { }, { }, ... ]
