@@ -12,8 +12,6 @@ def read_local_json(file_name):
     return  json.loads("".join(url_targets).replace("\n",""))
 
 def write_input_to_file_json(input, file_name):
-    if find_local_file("/".join(["routes",file_name + ".json"])):
-        return False
     file = open("/".join([home_directory,"routes",file_name + ".json"]), 'w')
     json.dump(input, file)
     file.close()
@@ -27,4 +25,8 @@ def read_local_file(file_name):
 
 def find_local_file(file_name):
     file = Path("/".join([home_directory,  file_name]))
+    return file.is_file()
+
+def find_local_route_json(file_name):
+    file = Path("/".join([home_directory, "routes",file_name + ".json"]))
     return file.is_file()
