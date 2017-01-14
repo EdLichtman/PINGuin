@@ -34,7 +34,7 @@ def api_POST():
         file_name = list_of_targets_to_ping.pop("saveas", None)
         if file_name is not None:
             if not find_local_route_json(file_name):
-                write_input_to_file_json(list_of_targets_to_ping, file_name)
+                write_local_route_json(list_of_targets_to_ping, file_name)
             else:
                 abort(409)
 
@@ -42,7 +42,7 @@ def api_POST():
 
 @app.route('/<path:route>', methods = ["GET"])
 def api_GET_route(route):
-    list_of_targets_to_ping = read_local_json("/".join(["routes", route]))
+    list_of_targets_to_ping = read_local_route_json(route)
     if list_of_targets_to_ping is None:
         abort(404)
 
@@ -60,13 +60,23 @@ def api_POST_route(route):
 
     if not "saveas" in list_of_targets_to_ping:
         if find_local_route_json(route):
-            write_input_to_file_json(list_of_targets_to_ping, route)
+            write_local_route_json(list_of_targets_to_ping, route)
         else:
             abort(404)
     else:
         abort(400, "Please remove saveas from your message body")
 
     return ping_all_target_urls(list_of_targets_to_ping)
+
+@app.route('/<path:route>', methods = ["DELETE"])
+def api_DELETE_route(route):
+    if find_local_route_json(route):
+        delete_local_route_json(route)
+    else:
+        abort(404)
+
+    return "Route Successfully removed!"
+
 
 @app.route('/css/<path:path>')
 def api_GET_css(path):
