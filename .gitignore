@@ -1,3 +1,6 @@
 .idea*
-*.pyc
+__pycache__/*.pyc
+__pycache__
+
+# Ignore routes since they’re created in posts
 /routes/*
