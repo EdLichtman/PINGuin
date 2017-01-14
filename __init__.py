@@ -11,7 +11,7 @@ app = Flask(__name__, static_url_path='/static')
 @app.route("/")
 def api_root():
     response_object = api_response()
-    return find_local_file("README.md")
+    return read_local_file("README.md")
 
 @app.route("/", methods = ["POST"])
 def api_post():
@@ -26,7 +26,9 @@ def api_post():
     if "saveas" in list_of_targets_to_ping:
         file_name = list_of_targets_to_ping.pop("saveas", None)
         if file_name is not None:
-            write_input_to_file(list_of_targets_to_ping, file_name)
+            wrote_to_file = write_input_to_file_json(list_of_targets_to_ping, file_name)
+            if not wrote_to_file:
+                abort(409)
 
     response_object = api_response()
 
@@ -42,11 +44,11 @@ def api_post():
 
 @app.route('/<path:route>')
 def api_open_saved(route):
-    response_object = api_response()
-    try:
-        list_of_targets_to_ping = find_local_json("/".join(["routes", route]))
-    except:
+    list_of_targets_to_ping = read_local_json("/".join(["routes", route]))
+    if list_of_targets_to_ping is None:
         abort(404)
+
+    response_object = api_response()
 
     for target_to_ping in list_of_targets_to_ping["urls"]:
 
