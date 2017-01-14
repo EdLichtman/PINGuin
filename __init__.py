@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request as flask_request
+from flask import Flask, send_from_directory, request as flask_request, abort
 from response_helpers import *
 from request_helpers import *
 from models import *
@@ -43,7 +43,10 @@ def api_post():
 @app.route('/<path:route>')
 def api_open_saved(route):
     response_object = api_response()
-    list_of_targets_to_ping = find_local_json("/".join(["routes", route]))
+    try:
+        list_of_targets_to_ping = find_local_json("/".join(["routes", route]))
+    except:
+        abort(404)
 
     for target_to_ping in list_of_targets_to_ping["urls"]:
 
