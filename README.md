@@ -2,8 +2,28 @@
 ##### An API endpoint to check all your API Endpoints   
 PINGuin is a REST application that you can post a JSON list of requests to and it will send each request and return the status it recieved. 
 <br/>
-JSON request is build on:
+##### Accepted routes:
+* GET: "/" 
+  * Returns Readme
+* GET: "/{created_path}
+  * Requires that a path has been created through POST "/"
+  * Returns a status check of all URLs listed in this route
+* POST: "/" 
+  * Requires JSON Request. See section JSON Format
+  * If "saveas" has been specified, saves JSON to new route
+  * Returns a status check of all URLs posted in the Request Body
+* PUT: "/{created_path}" 
+  * Requires JSON Request. See section JSON Format
+  * Requires that a path has been created through POST "/"
+  * Overwrites the JSON file associated with this route 
+  * Returns a status check of all URLs listed in this route
+* DELETE: "/{created_path}"
+  * Requires that a path has been created through POST "/"
+  * Deletes the JSON file associated with this route, and this route
+<br/>
 
+##### JSON Format
+JSON request is build on:
 <br/>
 * saveas: file_name.  
 
