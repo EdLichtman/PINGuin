@@ -49,6 +49,7 @@ def api_GET_route(route):
     return ping_all_target_urls(list_of_targets_to_ping)
 
 @app.route('/<path:route>', methods = ["PUT"])
+def api_PUT_route(route):
     if (not hasattr(flask_request, "json")):
         return "This Route Requires a JSON Body"
 
