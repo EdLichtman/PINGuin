@@ -22,7 +22,8 @@ def read_local_file(file_name):
 
 def read_local_route_json(file_name):
     file = "/".join([home_directory, "routes", file_name + ".json"])
-    if not find_local_file(file):
+
+    if not find_local_route_json(file_name):
         return None
     url_targets = open(file, "r").readlines()
     return  json.loads("".join(url_targets).replace("\n",""))
