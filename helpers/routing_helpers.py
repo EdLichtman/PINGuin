@@ -1,7 +1,6 @@
-from response_helpers import package_ping
-
+from helpers.response_helpers import package_ping
 from helpers.request_helpers import make_request, build_request
-from models import api_response
+from models.models import api_response
 
 
 def ping_all_target_urls(list_of_targets_to_ping):

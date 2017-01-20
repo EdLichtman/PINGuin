@@ -1,9 +1,9 @@
 from pathlib import Path
+import os, json, os.path
 
-import os, json
 
-
-home_directory = os.path.dirname(os.path.realpath(__file__))
+my_path = home_directory = os.path.dirname(os.path.realpath(__file__))
+home_directory = os.path.abspath(os.path.join(my_path, os.pardir))
 route_directory = "/".join([home_directory,"routes"])
 
 def find_case_insensitive_file(directory, file_name):
@@ -68,5 +68,6 @@ def delete_local_route_json(file_name):
     return delete_case_insensitive_file(route_directory, file_name + ".json")
 
 def create_routes_folder():
-    if not Path("/".join([home_directory,"routes"])).is_dir():
-        os.makedirs(home_directory)
+    route = "/".join([home_directory,"routes"])
+    if not Path(route).is_dir():
+        os.makedirs(route)
