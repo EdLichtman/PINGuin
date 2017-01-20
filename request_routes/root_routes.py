@@ -1,10 +1,10 @@
 from flask import abort
 from helpers.io_helpers import *
 from helpers.routing_helpers import ping_all_target_urls
-
+import markdown
 
 def api_root_GET(flask_request):
-    return read_local_file("README.md")
+    return markdown.markdown(read_local_file("README.md"))
 
 def api_root_POST(list_of_targets_to_ping):
 
