@@ -1,7 +1,7 @@
-from flask import Flask, send_from_directory, request as flask_request, abort
+from flask import Flask, request as flask_request, abort
 from helpers.io_helpers import create_routes_folder
-from request_routes.root_routes import api_root_GET, api_root_POST
-from request_routes.routing_routes import api_routing_GET, api_routing_PUT, api_routing_DELETE
+from request_routes.routing_routes import api_root_GET, api_root_POST, api_routing_GET\
+    , api_routing_PUT, api_routing_DELETE
 
 app = Flask(__name__, static_url_path='/static')
 
