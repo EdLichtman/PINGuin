@@ -1,0 +1,1 @@
+@"C:\Projects\PINGuin\venv\Scripts\python.exe" "C:\Projects\PINGuin\venv\Scripts\markdown_py" %*

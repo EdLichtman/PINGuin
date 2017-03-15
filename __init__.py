@@ -36,12 +36,6 @@ def api_routing(route):
         return api_routing_DELETE(route)
 
 
-
-@app.route('/css/<path:path>')
-def api_GET_css(path):
-    return send_from_directory(app.static_folder + '/css', path)
-
-
 if __name__ == "__main__":
   create_routes_folder()
   app.run()
