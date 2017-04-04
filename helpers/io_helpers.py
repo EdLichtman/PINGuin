@@ -19,7 +19,7 @@ def read_case_insensitive_file(directory, file_name):
 def write_case_insensitive_file(input, directory, file_name):
     if find_case_insensitive_file(directory, file_name):
         return False
-    file = open("/".join([route_directory, file_name.lower()]), "w")
+    file = open("/".join([directory, file_name.lower()]), "w")
     file.write(input)
     file.close()
     return True
