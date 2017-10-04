@@ -1,7 +1,10 @@
-from flask import Flask, request as flask_request, abort
+from flask import Flask, request as flask_request
 from helpers.io_helpers import create_routes_folder
 from request_routes.routing_routes import api_root_GET, api_root_POST, api_routing_GET\
     , api_routing_PUT, api_routing_DELETE
+
+import mysql.connector
+
 
 app = Flask(__name__, static_url_path='/static')
 
